@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from core.models import Base
 from .validators import validate_cpf
 import re
 
