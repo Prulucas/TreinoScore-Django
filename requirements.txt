@@ -35,4 +35,5 @@ sqlparse==0.5.5
 static3==0.7.0
 tzdata==2024.1
 urllib3==2.2.1
+validate-docbr==2.0.0
 whitenoise==6.12.0
