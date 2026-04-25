@@ -22,7 +22,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'workouts',
-    'core'
+    'core',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -115,3 +116,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'login'
+
+
+# configurações de email
+# abaixo o código para simular o envio de email, printando no console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+'''
+Configuração quando se tem server de email
+se informa:
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = 'no-replay@seudominio.com.br (email que conecta no servidor)
+EMAIL_PORT = 586 (Ou a que o servidor informar)
+EMAIL_USE_TSL = True (Se vai utilizar criptografia ou não)
+EMAIL_HOST_PASSWORD = 'sua-senha'
+'''
