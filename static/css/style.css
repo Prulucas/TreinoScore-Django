@@ -1,6 +1,76 @@
+.navbar-brand {
+    letter-spacing: 2px;
+    text-transform: uppercase; 
+    font-weight: 800; 
+}
 
-body{font-family:Arial,sans-serif;background:#eef0f2;}
-.card-box{background:#fff;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.08);}
-.btn-gold{background:#eab308;color:#fff;border:none}
-.btn-gold:hover{background:#ca8a04;color:#fff}
-.logo{font-weight:700;font-size:40px;color:#eab308}
+.nav-link {
+    letter-spacing: 1px;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+.navbar-nav .nav-link {
+    transition: color 0.3s ease;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+
+.btn {
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* Navbar Customizada */
+.navbar {
+    background-color: #ddda17 !important; 
+    border-bottom: 3px solid #343a40;
+    padding-top: 1rem;    
+    padding-bottom: 1rem; 
+}
+
+.navbar .navbar-nav .nav-link {
+    color: #1a1a1a !important; 
+    font-weight: 600;
+    margin-left: 25px !important;  
+    margin-right: 25px !important; 
+    display: inline-block; 
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #555555 !important;
+    text-decoration: underline;
+}
+
+.navbar-brand {
+    color: #1a1a1a !important;
+    font-weight: 800;
+    font-size: 1.4rem;
+}
+
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+input[type="number"], 
+select {
+    display: block;
+    width: 100%;
+    height: calc(1.5 em + .75 rem + 2 px);
+    padding: .375 rem .75 rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    margin-bottom: 15px; 
+}
+
+input:focus {
+    border-color: #ddda17; 
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(221, 218, 23, 0.25);
+}

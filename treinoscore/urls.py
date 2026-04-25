@@ -1,8 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic.base import TemplateView
+from core.views import index
+from users.views import register
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('contas/', include('django.contrib.auth.urls')),
+    path('cadastro/', register, name='register'),
+    #    path('workouts/', include('workouts.urls')),
+    #  path('users/', include('users.urls')),
+    path('', index, name='index'),
 ]

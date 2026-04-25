@@ -1,3 +1,9 @@
 from django.shortcuts import render
+from users.models import User
+from django.contrib.auth import get_user_model
 
-# Create your views here.
+User = get_user_model()
+
+
+def index(request):
+    return render(request, 'index.html')

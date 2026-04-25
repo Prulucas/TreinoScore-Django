@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-5">
+                
+                <h2 class="text-center font-weight-bold mb-4">Criar Conta</h2>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="form-group mb-3">
+                            <label class="font-weight-bold">{{ field.label }}</label>
+                            <div class="input-group">
+                                {{ field }}
+                            </div>
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="text-danger small">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-success btn-block btn-lg mt-4">
+                        Cadastrar
+                    </button>
+
+                    <div class="text-center mt-3">
+                        <span class="text-muted">Já tem uma conta?</span> 
+                        <a href="{% url 'login' %}" class="font-weight-bold">Entrar</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

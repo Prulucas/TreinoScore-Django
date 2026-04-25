@@ -23,80 +23,28 @@ from workouts.models import Treino
 # ======================================================
 @receiver(post_save, sender=User)
 def criar_treinos_iniciais(sender, instance, created, **kwargs):
-    """
-    Quando um novo usuário for criado:
-
-    - Se for aluno (student)
-    - E ainda não possuir treinos
-
-    O sistema cria automaticamente:
-
-    Treino A
-    Treino B
-    Treino C
-    Treino D
-    Treino E
-    """
-
-    # ----------------------------------------------
-    # Se usuário foi apenas editado, não faz nada
-    # ----------------------------------------------
     if not created:
         return
 
-    # ----------------------------------------------
-    # Apenas alunos recebem treino automático
-    # ----------------------------------------------
     if instance.role != 'student':
         return
 
-    # ----------------------------------------------
-    # Segurança extra:
-    # se já possui treino, não duplica
-    # ----------------------------------------------
-    if Treino.objects.filter(user=instance).exists():
+    if Treino.objects.filter(student=instance).exists():
         return
 
-    # ----------------------------------------------
-    # Lista de treinos padrão
-    # ----------------------------------------------
     treinos_padrao = [
-        {
-            'title': 'Treino A',
-            'description': 'Peito + Tríceps',
-            'day': 'segunda',
-        },
-        {
-            'title': 'Treino B',
-            'description': 'Costas + Bíceps',
-            'day': 'terca',
-        },
-        {
-            'title': 'Treino C',
-            'description': 'Perna completa',
-            'day': 'quarta',
-        },
-        {
-            'title': 'Treino D',
-            'description': 'Ombro + Abdômen',
-            'day': 'quinta',
-        },
-        {
-            'title': 'Treino E',
-            'description': 'Cardio + Mobilidade',
-            'day': 'sexta',
-        },
+        {'title': 'Treino A', 'description': 'Peito + Tríceps', 'day': 'segunda'},
+        {'title': 'Treino B', 'description': 'Costas + Bíceps', 'day': 'terca'},
+        {'title': 'Treino C', 'description': 'Perna completa', 'day': 'quarta'},
+        {'title': 'Treino D', 'description': 'Ombro + Abdômen', 'day': 'quinta'},
+        {'title': 'Treino E', 'description': 'Cardio + Mobilidade', 'day': 'sexta'},
     ]
 
-    # ----------------------------------------------
-    # Cria cada treino no banco
-    # ----------------------------------------------
     for treino in treinos_padrao:
-
         Treino.objects.create(
-            user=instance,
+            student=instance,
             title=treino['title'],
             description=treino['description'],
             day=treino['day'],
-            status='active'
+            active=True
         )
