@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center py-5">
+    <h1 class="display-1 font-weight-bold text-danger">500</h1>
+    <h2 class="mb-4">Erro no Servidor.</h2>
+    <p class="lead mb-5">Nossos halteres ficaram pesados demais! Estamos com um problema técnico, mas nossa equipe já está verificando.</p>
+    <a href="{% url 'index' %}" class="btn btn-outline-dark btn-lg">Tentar novamente</a>
+</div>
+{% endblock %}

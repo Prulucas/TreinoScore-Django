@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
-from core.views import index
 from users.views import register
+from django.conf.urls import handler404, handler500
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -10,5 +10,7 @@ urlpatterns = [
     path('', include('core.urls')),
     #    path('workouts/', include('workouts.urls')),
     #  path('users/', include('users.urls')),
-    path('', index, name='index'),
 ]
+
+handler404 = 'core.views.handler404'
+handler500 = 'core.views.handler500'
