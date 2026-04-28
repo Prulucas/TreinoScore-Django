@@ -7,6 +7,22 @@
             <div class="card-body p-5">
                 
                 <h2 class="text-center font-weight-bold mb-4">Criar Conta</h2>
+                
+                    {% if form.errors %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                {% if "já existe" in error or "already exists" in error %}
+                                    <strong>E-mail já cadastrado!</strong> 
+                                    <a href="{% url 'login' %}" class="alert-link">Clique aqui para logar.</a>
+                                {% else %}
+                                    {{ error }}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    </div>
+                {% endif %}
 
                 <form method="post">
                     {% csrf_token %}
