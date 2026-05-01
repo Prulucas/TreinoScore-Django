@@ -1,12 +1,5 @@
-# Importa recursos para criação de models no Django
 from django.db import models
-
-# Importa model base do projeto
-# Geralmente contém campos como:
-# id, created_at, updated_at, active etc.
 from core.models import Base
-
-# Importa modelo de usuário
 from users.models import User
 
 
@@ -16,19 +9,8 @@ from users.models import User
 # ======================================================
 class Exercicio(Base):
 
-    # Nome do exercício
-    # Ex: Supino, Agachamento, Rosca Direta
-    title = models.CharField(
-        'Título',
-        max_length=100
-    )
-
-    # Descrição opcional do exercício
-    # Ex: manter postura reta, descer controlado...
-    description = models.TextField(
-        'Descrição',
-        blank=True
-    )
+    title = models.CharField('Título', max_length=100)
+    description = models.TextField('Descrição', blank=True)
 
     # Categoria muscular / tipo
     category = models.CharField(
@@ -45,24 +27,15 @@ class Exercicio(Base):
             ('cardio', 'Cardio'),
         ]
     )
-
-    # Nível de dificuldade
-    difficulty = models.CharField(
-        'Nível',
-        max_length=20,
-        choices=[
-            ('iniciante', 'Iniciante'),
-            ('intermediario', 'Intermediário'),
-            ('avancado', 'Avançado'),
-        ],
-        default='iniciante'
+    difficulty = models.CharField('Nível', max_length=20, choices=[
+        ('iniciante', 'Iniciante'),
+        ('intermediario', 'Intermediário'),
+        ('avancado', 'Avançado'),
+    ], default='iniciante'
     )
 
     # Campo futuro para vídeo demonstrativo
     # video_url = models.URLField(blank=True)
-
-    # Define se exercício está ativo no sistema
-    active = models.BooleanField(default=True)
 
     # Texto exibido no admin e consultas
     def __str__(self):
@@ -78,43 +51,24 @@ class Treino(Base):
     # Aluno dono do treino
     # Só permite usuários role=student
     student = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        limit_choices_to={'role': 'student'}
-    )
+        User, on_delete=models.CASCADE, limit_choices_to={'role': 'student'})
 
     # Professor criador do treino
     # related_name permite:
     # professor.treinos_criados.all()
-    teacher = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='treinos_criados',
-        limit_choices_to={'role': 'teacher'}
-    )
-
-    # Nome do treino
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE,
+                                related_name='treinos_criados', limit_choices_to={'role': 'teacher'})
     title = models.CharField(max_length=100)
-
-    # Observações / descrição
     description = models.TextField(blank=True)
-
-    # Dia da semana do treino
-    day = models.CharField(
-        max_length=20,
-        choices=[
-            ('segunda', 'Segunda'),
-            ('terca', 'Terça'),
-            ('quarta', 'Quarta'),
-            ('quinta', 'Quinta'),
-            ('sexta', 'Sexta'),
-            ('sabado', 'Sábado'),
-            ('domingo', 'Domingo'),
-        ]
-    )
-
-    # Treino ativo/inativo
-    active = models.BooleanField(default=True)
+    day = models.CharField(max_length=20, choices=[
+        ('segunda', 'Segunda'),
+        ('terca', 'Terça'),
+        ('quarta', 'Quarta'),
+        ('quinta', 'Quinta'),
+        ('sexta', 'Sexta'),
+        ('sabado', 'Sábado'),
+        ('domingo', 'Domingo'),
+    ])
 
     def __str__(self):
         return self.title
@@ -127,35 +81,13 @@ class Treino(Base):
 class TreinoExercicio(Base):
 
     # Qual treino recebe o exercício
-    treino = models.ForeignKey(
-        Treino,
-        on_delete=models.CASCADE
-    )
-
-    # Exercício vinculado
-    exercicio = models.ForeignKey(
-        Exercicio,
-        on_delete=models.CASCADE
-    )
-
-    # Quantidade de séries
-    series = models.IntegerField(default=3)
-
-    # Quantidade de repetições
+    treino = models.ForeignKey(Treino, on_delete=models.CASCADE)
+    exercicio = models.ForeignKey(Exercicio, on_delete=models.CASCADE)
+    series = models.IntegerField(default=1)
     repetitions = models.IntegerField(default=12)
-
-    # Peso usado no exercício
-    # Ex: 25.50 kg
     weight = models.DecimalField(
-        max_digits=6,
-        decimal_places=2,
-        null=True,
-        blank=True
-    )
-
-    # Descanso entre séries (segundos)
-    rest_seconds = models.IntegerField(default=60)
-
+        max_digits=6, decimal_places=2, null=True, blank=True)
+    rest_seconds = models.IntegerField(default=30)
     # Ordem do exercício no treino
     # Ex: 1º, 2º, 3º...
     order = models.IntegerField(default=1)

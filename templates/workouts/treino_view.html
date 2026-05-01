@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="text-center mb-5">
+        <h1 class="display-4">{{ treino.title }}</h1>
+        <p class="lead text-muted">{{ treino.get_day_display }} | Prof: {{ treino.teacher.get_full_name }}</p>
+        <span class="badge badge-info">Modo Visualização</span>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="list-group shadow-sm">
+                {% for item in exercicios %}
+                    <div class="list-group-item list-group-item-action flex-column align-items-start p-4">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h4 class="mb-1 text-primary">{{ item.order }}º - {{ item.exercicio.title }}</h4>
+                            <small class="text-muted">Carga: <strong>{{ item.weight|default:"--" }} kg</strong></small>
+                        </div>
+                        <p class="mb-1 h5">
+                            {{ item.series }} séries de {{ item.repetitions }} repetições
+                        </p>
+                        {% if item.rest_seconds %}
+                            <small class="text-danger"><i class="fas fa-stopwatch"></i> Descanso: {{ item.rest_seconds }}s</small>
+                        {% endif %}
+                        {% if item.notes %}
+                            <div class="mt-2 p-2 bg-light border-left border-warning text-dark">
+                                <small><strong>Obs:</strong> {{ item.notes }}</small>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <div class="text-center p-5">
+                        <p class="text-muted">Nenhum exercício cadastrado para este treino.</p>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <div class="mt-4 text-center">
+                <a href="{% url 'workouts:workout_index' %}" class="btn btn-secondary">Voltar para a Lista</a>
+                {% if user.role == 'teacher' %}
+                    <a href="{% url 'workouts:treino_detalhes' treino.pk %}" class="btn btn-warning">Editar este Treino</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

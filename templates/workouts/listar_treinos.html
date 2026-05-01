@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Meus Treinos</h2>
+            {% if user.role == 'teacher' %}
+                <a href="{% url 'workouts:treino_form' %}" class="btn btn-success">+ Novo Treino</a>
+            {% endif %}
+        </div>
+
+        <div class="row">
+            {% for treino in treinos %}
+                <div class="col-md-4 mb-3">
+                    <div class="card shadow-sm border-{% if user.role == 'teacher' %}primary{% else %}info{% endif %}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ treino.title  }} ({{ treino.day }})</h5>
+                            <p class="card-text text-muted">
+                                <i class="fas fa-calendar-alt"></i> {{ treino.get_day_display }}<br>
+                                {% if user.role == 'teacher' %}
+                                    <small>Aluno: {{ treino.student.first_name }}</small>
+                                {% else %}
+                                    <small>Prof: {{ treino.teacher.get_full_name|default:"Treinador" }}</small>
+                                {% endif %}
+                            </p>
+                            
+                            <div class="d-grid gap-2 d-md-block">
+                                <a href="{% url 'workouts:treino_view' treino.pk %}" class="btn btn-outline-primary btn-sm">Ver Exercícios</a>
+                                
+                                {% if user.role == 'teacher' %}
+                                    <a href="{% url 'workouts:treino_detalhes' treino.pk %}" class="btn btn-outline-secondary btn-sm">Editar</a>
+                                    <a href="#" class="btn btn-outline-danger btn-sm">Excluir</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p class="lead text-muted">Nenhum treino encontrado.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

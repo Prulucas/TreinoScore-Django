@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>{{ treino.title }} <small class="text-muted">({{ treino.get_day_display }})</small></h2>
+            <p class="lead">Aluno: {{ treino.student.get_full_name|default:treino.student.email }}</p>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-7">
+            <h4>Exercícios no Treino</h4>
+            <div class="table-responsive">
+                <table class="table table-hover bg-white shadow-sm">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Ordem</th>
+                            <th>Exercício</th>
+                            <th>Séries x Reps</th>
+                            <th>Peso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in exercicios %}
+                        <tr>
+                            <td>{{ item.order }}º</td>
+                            <td><strong>{{ item.exercicio.title }}</strong></td>
+                            <td>{{ item.series }} x {{ item.repetitions }}</td>
+                            <td>{{ item.weight|default:"--" }} kg</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">Nenhum exercício adicionado ainda.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">Adicionar Exercício</h4>
+                    <form method="post">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <button type="submit" class="btn btn-primary btn-block">Adicionar ao Treino</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

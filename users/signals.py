@@ -21,7 +21,7 @@ from workouts.models import Treino
 # ======================================================
 # CRIAR TREINOS AUTOMÁTICOS PARA NOVOS ALUNOS
 # ======================================================
-@receiver(post_save, sender=User)
+'''@receiver(post_save, sender=User)
 def criar_treinos_iniciais(sender, instance, created, **kwargs):
     if not created:
         return
@@ -48,3 +48,4 @@ def criar_treinos_iniciais(sender, instance, created, **kwargs):
             day=treino['day'],
             active=True
         )
+'''

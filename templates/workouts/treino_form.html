@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Cadastrar Novo Treino</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" class="form">
+                    {% csrf_token %}
+                    
+                    {# Renderiza todos os campos do seu TreinoForm automaticamente #}
+                    {% bootstrap_form form %}
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            Criar Treino
+                        </button>
+                        <a href="{% url 'index' %}" class="btn btn-outline-secondary btn-lg">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

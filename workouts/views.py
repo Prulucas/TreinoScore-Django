@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from .models import Treino
+from django.shortcuts import render, redirect
+from .models import Treino, TreinoExercicio
+from .forms import TreinoForm, TreinoExercicioForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 
@@ -18,33 +19,66 @@ editar_treino"""
 @login_required
 def listar_treinos(request):
 
-    treinos = Treino.objects.filter(user=request.user)
+    if request.user.role == 'teacher':
+        treinos = Treino.objects.filter(
+            teacher=request.user).order_by('-created')
+    else:
+        treinos = Treino.objects.filter(student=request.user).order_by('day')
 
-    return render(request, 'treinos/listar.html', {
-        'treinos': treinos
-    })
+    return render(request, 'workouts/listar_treinos.html', {'treinos': treinos})
+# Criar treino (professor)
 
 
 @login_required
-def detalhe_treino(request, pk):
+def treino_create(request):
+    if request.method == 'POST':
+        form = TreinoForm(request.POST)
 
-    treino = get_object_or_404(
-        Treino,
-        id=pk,
-        user=request.user
-    )
+        if form.is_valid():
+            treino = form.save(commit=False)
+            treino.teacher = request.user
+            treino.save()
+            return redirect('workouts:treino_detalhes', pk=treino.pk)
+    else:
+        form = TreinoForm()
+    context = {'form': form}
+    return render(request, 'workouts/treino_form.html', context)
 
-    return render(request, 'treinos/detalhe.html', {
-        'treino': treino
-    })
 
-
-def editar_treino(request, pk):
-    treino = Treino.objects.get(id=pk)
+@login_required
+def treino_detalhes(request, pk):
+    treino = get_object_or_404(Treino, pk=pk)
+    exercicios = TreinoExercicio.objects.filter(
+        treino=treino).order_by('order')
 
     if request.method == 'POST':
-        treino.title = request.POST['title']
-        treino.description = request.POST['description']
-        treino.save()
+        form = TreinoExercicioForm(request.POST)
 
-    return render(request, 'editar_treino.html', {'treino': treino})
+        if form.is_valid():
+            novo_exercicio = form.save(commit=False)
+            novo_exercicio.treino = treino
+            novo_exercicio.save()
+            return redirect('workouts:treino_detalhes', pk=treino.pk)
+    else:
+        form = TreinoExercicioForm()
+
+    context = {
+        'treino': treino,
+        'exercicios': exercicios,
+        'form': form
+    }
+    return render(request, 'workouts/treino_detalhes.html', context)
+
+
+@login_required
+def treino_view(request, pk):
+    treino = get_object_or_404(Treino, pk=pk)
+
+    exercicios = TreinoExercicio.objects.filter(
+        treino=treino).order_by('order')
+
+    context = {
+        'treino': treino,
+        'exercicios': exercicios
+    }
+    return render(request, 'workouts/treino_view.html', context)
