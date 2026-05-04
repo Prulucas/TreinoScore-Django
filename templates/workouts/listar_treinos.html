@@ -15,7 +15,7 @@
                 <div class="col-md-4 mb-3">
                     <div class="card shadow-sm border-{% if user.role == 'teacher' %}primary{% else %}info{% endif %}">
                         <div class="card-body">
-                            <h5 class="card-title">{{ treino.title  }} ({{ treino.day }})</h5>
+                            <h5 class="card-title">{{ treino.title }} ({{ treino.day }})</h5>
                             <p class="card-text text-muted">
                                 <i class="fas fa-calendar-alt"></i> {{ treino.get_day_display }}<br>
                                 {% if user.role == 'teacher' %}
@@ -30,7 +30,11 @@
                                 
                                 {% if user.role == 'teacher' %}
                                     <a href="{% url 'workouts:treino_detalhes' treino.pk %}" class="btn btn-outline-secondary btn-sm">Editar</a>
-                                    <a href="#" class="btn btn-outline-danger btn-sm">Excluir</a>
+                                    
+                                    <form action="{% url 'workouts:treino_delete' treino.pk %}" method="POST" class="d-inline" onsubmit="return confirm('Tem certeza que deseja excluir todo este treino?')">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">Excluir</button>
+                                    </form>
                                 {% endif %}
                             </div>
                         </div>
@@ -62,16 +66,13 @@
                                 </p>
                                 
                                 <div class="d-grid gap-2 d-md-block">
-                                    <!-- Removido o link 'treino_view' que causava erro -->
-                                    <!-- Se tiver uma view de detalhes do exercício, use aqui. 
-                                        Caso contrário, pode deixar apenas os botões de ação abaixo -->
+                                    <a href="#" class="btn btn-outline-secondary btn-sm">Editar</a>
+
                                     
-                                    {% if user.role == 'teacher' %}
-                                        <!-- IMPORTANTE: Aqui usamos exercicio.pk, não treino.pk -->
-                                        <!-- Verifique se você tem a rota 'exercicio_detalhes' ou mude para 'exercicio_form' se for edição -->
-                                        <a href="#" class="btn btn-outline-secondary btn-sm">Editar</a>
-                                        <a href="#" class="btn btn-outline-danger btn-sm">Excluir</a>
-                                    {% endif %}
+                                    <form action="{% url 'workouts:exercicio_delete' exercicio.pk %}" method="POST" class="d-inline" onsubmit="return confirm('Excluir este exercício do catálogo global?')">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">Excluir</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +81,7 @@
                     <div class="col-12 text-center">
                         <p class="lead text-muted">Nenhum exercício cadastrado no catálogo.</p>
                     </div>
-        {% endfor %}
+                {% endfor %}
             </div>
         </div>
     {% endif %}

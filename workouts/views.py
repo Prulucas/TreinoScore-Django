@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import user_passes_test
 from users.permissions import is_teacher_or_admin
+from django.views.decorators.http import require_POST
+from django.core.exceptions import PermissionDenied
 
 
 @login_required
@@ -83,6 +85,19 @@ def treino_detalhes(request, pk):
 
 
 @login_required
+@user_passes_test(is_teacher_or_admin, login_url='workouts:workout_index')
+def remover_exercicio_do_treino(request, pk):
+    relacao = get_object_or_404(TreinoExercicio, pk=pk)
+    treino_id = relacao.treino.id
+
+    if request.method == 'POST':
+        relacao.delete()
+        return redirect('workouts:treino_detalhes', pk=treino_id)
+
+    return redirect('workouts:treino_detalhes', pk=treino_id)
+
+
+@login_required
 def treino_view(request, pk):
     treino = get_object_or_404(Treino, pk=pk)
 
@@ -96,17 +111,18 @@ def treino_view(request, pk):
     return render(request, 'workouts/treino_view.html', context)
 
 
-# Views de Exercicios
+@login_required
+@user_passes_test(is_teacher_or_admin, login_url='workouts:workout_index')
+@require_POST
+def treino_delete(request, pk):
+    treino = get_object_or_404(Treino, pk=pk)
+    if treino.teacher != request.user and not request.user.is_superuser:
+        raise PermissionDenied
+    treino.delete()
+    return redirect('workouts:workout_index')
 
-    if request.user.role == 'teacher':
-        exercicios = Exercicio.objects.filter(
-            teacher=request.user).order_by('-created')
-    else:
-        exercicios = Exercicio.objects.filter(
-            student=request.user).order_by('title')
 
-    return render(request, 'workouts/listar_exercicios.html', {'exercicios': exercicios})
-
+# Exercicios
 
 @login_required
 @user_passes_test(is_teacher_or_admin, login_url='workouts:workout_index')
@@ -149,3 +165,12 @@ def exercicio_detalhes(request, pk):
         'form': form
     }
     return render(request, 'workouts/exercicio_detalhes.html', context)
+
+
+@login_required
+@user_passes_test(is_teacher_or_admin, login_url='workouts:workout_index')
+@require_POST
+def exercicio_delete(request, pk):
+    exercicio = get_object_or_404(Exercicio, pk=pk)
+    exercicio.delete()
+    return redirect('workouts:workout_index')
