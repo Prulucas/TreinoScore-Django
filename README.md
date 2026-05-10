@@ -1,25 +1,34 @@
-O TreinoScore é uma plataforma web robusta desenvolvida para modernizar e digitalizar a gestão de treinos em academias. O sistema permite que profissionais de Educação Física (Personal Trainers) criem, organizem e personalizem rotinas de musculação, enquanto os alunos acedem às suas fichas de forma digital, intuitiva e com suporte a exportação de dados.
+# TreinoScore
 
-O projeto nasceu da necessidade de substituir as tradicionais fichas de papel por uma solução inteligente que centraliza a evolução do aluno.
+O **TreinoScore** é uma solução Full Stack desenvolvida com **Django** para modernizar a gestão de treinos em academias. O sistema digitaliza a relação entre Personal Trainers e alunos, substituindo fichas de papel por uma plataforma dinâmica, acessível e inteligente.
 
-Funcionalidades Principais
-Gestão de Treinos Personalizados: O professor pode montar rotinas completas, definindo ordem dos exercícios, séries, repetições, peso e tempo de descanso.
+Este projeto foi desenvolvido como Projeto Integrador na **FATEC Ourinhos**, focado em otimizar o acompanhamento e a evolução de alunos iniciantes e veteranos na musculação.
 
-Interface Midnight (Dark Mode): Sistema de temas inteligente baseado no Bootstrap 5.3, com uma paleta de cores "Midnight" (tons de azul e roxo profundos) otimizada para ambientes de treino.
+---
 
-Exportação para PDF: Integração com a biblioteca xhtml2pdf para gerar fichas de treino profissionais com um clique, permitindo consulta offline.
+## Funcionalidades
 
-Design Mobile-First: Interface totalmente responsiva que utiliza um sistema de cards para garantir uma leitura rápida e clara no smartphone durante a execução do exercício.
+- **Gestão de Exercícios:** Professores podem criar e organizar rotinas completas (Séries, Repetições, Carga e Descanso).
+- **Exportação para PDF:** Gerador de fichas de treino profissionais para consulta offline via `xhtml2pdf`.
+- **Tema Midnight (Dark Mode):** Interface adaptativa com paleta suave de azul e roxo, focada no conforto visual e economia de bateria em dispositivos OLED.
+- **Design Responsivo:** Otimizado para smartphones através do Bootstrap 5.3, facilitando o uso durante o treino.
 
-Controlo de Acesso (Auth): Sistema de autenticação seguro para garantir que cada aluno aceda apenas ao seu plano de treino e cada professor faça a gestão dos seus alunos.
+---
 
-Tecnologias Utilizadas
-Backend: Python 3.12+ & Django
+## Tecnologias
 
-Frontend: Bootstrap 5.3, JavaScript (ES6+), HTML5, CSS3 (Variáveis Dinâmicas)
+- **Linguagem:** [Python 3.12](https://www.python.org/)
+- **Framework Web:** [Django](https://www.djangoproject.com/)
+- **Frontend:** HTML5, CSS3 (Variáveis Dinâmicas), JavaScript (ES6)
+- **CSS Framework:** [Bootstrap 5.3](https://getbootstrap.com/)
+- **Banco de Dados:** PostgreSQL / SQLite
+- **Geração de Documentos:** xhtml2pdf
 
-Base de Dados: PostgreSQL (Produção) / SQLite (Desenvolvimento)
+---
 
-Documentação: xhtml2pdf para geração de relatórios.
+## Como Executar
 
-Arquitetura: MVC (Model-View-Template no Django).
+1. **Clone o repositório:**
+   ```bash
+   git clone [https://github.com/Prulucas/TreinoScore-Django.git](https://github.com/Prulucas/TreinoScore-Django.git)
+   cd TreinoScore-Django
